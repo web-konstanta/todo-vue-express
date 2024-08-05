@@ -61,7 +61,7 @@ export default {
   background-color: #232020;
   font-family: Helvetica, sans-serif;
   border-radius: 10px;
-  max-width: 600px;
+  max-width: 500px;
   margin: 2% auto;
   padding: 20px 0;
 }
@@ -73,7 +73,7 @@ export default {
 }
 
 .sign-up__form {
-  max-width: 380px;
+  max-width: 330px;
   margin: 15px auto;
   display: flex;
   flex-direction: column;
