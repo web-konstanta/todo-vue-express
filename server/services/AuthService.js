@@ -27,8 +27,12 @@ class AuthService {
             password: hashedPassword,
             verificationLink: verificationLink
         })
-        const userDto = new UserDto(user)
 
+        if (! user) {
+            throw new Error(`Registration failed`)
+        }
+
+        const userDto = new UserDto(user)
         const tokens = TokenService.generateTokens({ ...userDto })
         await TokenService.saveRefreshToken(userDto.id, tokens.refreshToken)
         await MailService.sendVerificationLink(data.email, `${process.env.API_URL}/api/verify/${verificationLink}`)
