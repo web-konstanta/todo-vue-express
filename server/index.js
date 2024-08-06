@@ -1,8 +1,9 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
+import router from './routes/router.js'
 import dotenv from 'dotenv'
-import cookieParser from "cookie-parser";
 dotenv.config()
 
 const PORT = process.env.PORT || 5000
@@ -13,6 +14,7 @@ const app = express()
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors())
+app.use('/api', router)
 
 const startApp = async () => {
     try {
