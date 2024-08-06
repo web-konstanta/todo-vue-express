@@ -21,6 +21,16 @@ class AuthController {
             return res.status(500).json(e)
         }
     }
+
+    async verify(req, res, next) {
+        try {
+            const verificationLink = req.params.link
+            await AuthService.verify(verificationLink)
+            return res.redirect(process.env.CLIENT_URL)
+        } catch (e) {
+            return res.status(500).json(e)
+        }
+    }
 }
 
 export default new AuthController()

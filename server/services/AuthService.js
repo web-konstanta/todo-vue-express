@@ -39,6 +39,16 @@ class AuthService {
 
         return tokens
     }
+
+    async verify(verificationLink) {
+        const user = await User.findOne({verificationLink})
+        if (user.isVerified) {
+            throw new Error(`Account is already verified`)
+        }
+
+        user.isVerified = true
+        await user.save()
+    }
 }
 
 export default new AuthService()
