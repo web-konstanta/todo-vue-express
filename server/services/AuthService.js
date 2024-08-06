@@ -3,6 +3,9 @@ import {UserDto} from '../dto/UserDto.js'
 import bcrypt from 'bcryptjs'
 import TokenService from '../services/TokenService.js'
 import * as uuid from 'uuid'
+import MailService from '../services/MailService.js'
+import dotenv from 'dotenv'
+dotenv.config()
 
 class AuthService {
     async signUp(data) {
@@ -16,18 +19,19 @@ class AuthService {
         }
 
         const hashedPassword = bcrypt.hashSync(data.password, 7)
-        const activationLink = uuid.v4()
+        const verificationLink = uuid.v4()
 
         const user = await User.create({
             name: data.name,
             email: data.email,
             password: hashedPassword,
-            activationLink: activationLink
+            verificationLink: verificationLink
         })
         const userDto = new UserDto(user)
 
         const tokens = TokenService.generateTokens({ ...userDto })
         await TokenService.saveRefreshToken(userDto.id, tokens.refreshToken)
+        await MailService.sendVerificationLink(data.email, `${process.env.API_URL}/api/verify/${verificationLink}`)
 
         return tokens
     }

@@ -5,7 +5,7 @@ const User = new Schema({
     email: { type: String, unicode: true, required: true },
     password: { type: String, required: true },
     isVerified: { type: Boolean, default: false },
-    activationLink: { type: String }
+    verificationLink: { type: String }
 })
 
 export default model('User', User)

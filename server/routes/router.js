@@ -9,6 +9,7 @@ router.post('/sign-up',
     body('email').isEmail(),
     body('password').isLength({ min: 6, max: 30 }),
     body('password_confirmation').isLength({ min: 6, max: 30 }),
-    AuthController.signUp)
+    AuthController.signUp
+)
 
 export default router
