@@ -1,15 +1,13 @@
 import { validationResult } from 'express-validator'
 import AuthService from '../services/AuthService.js'
+import HttpErrorHandler from '../exceptions/HttpErrorHandler.js'
 
 class AuthController {
     async signUp(req, res, next) {
         try {
             const errors = validationResult(req)
             if (! errors.isEmpty()) {
-                return res.status(422).json({
-                    message: 'Validation error',
-                    errors: errors.array()
-                })
+                next(HttpErrorHandler.badRequest(422, 'Validation error', errors))
             }
 
             const { name, email, password, password_confirmation } = req.body
@@ -18,7 +16,7 @@ class AuthController {
             res.cookie('refreshToken', tokens.refreshToken, { maxAge: 60 * 60 * 1000, httpOnly: true })
             return res.json(tokens)
         } catch (e) {
-            return res.status(500).json(e)
+            next(e)
         }
     }
 
@@ -28,7 +26,7 @@ class AuthController {
             await AuthService.verify(verificationLink)
             return res.redirect(process.env.CLIENT_URL)
         } catch (e) {
-            return res.status(500).json(e)
+            next(e)
         }
     }
 }
