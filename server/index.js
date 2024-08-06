@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import router from './routes/router.js'
+import HttpErrorMiddleware from './middlewares/HttpErrorMiddleware.js'
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -15,6 +16,7 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(cors())
 app.use('/api', router)
+app.use(HttpErrorMiddleware)
 
 const startApp = async () => {
     try {
