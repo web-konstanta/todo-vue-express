@@ -1,5 +1,10 @@
 <script>
 export default {
+  methods: {
+    redirectSignUp() {
+      this.$router.push('/sign-up')
+    }
+  },
   data() {
     return {
       inputs: [
@@ -39,6 +44,14 @@ export default {
         />
       </div>
       <button class="sign-in__btn" type="submit">Sign in</button>
+      <p class="sign-in__sign-up">
+        New on the platform?
+        <a
+            @click="redirectSignUp()"
+        >
+          Create an account
+        </a>
+      </p>
     </form>
   </div>
 </template>
@@ -97,5 +110,21 @@ export default {
   background-color: #4a4ae7;
   color: #ffffff;
   font-size: 16px;
+}
+
+.sign-in__sign-up {
+  font-size: 14px;
+  text-align: center;
+  margin-top: 25px;
+}
+
+.sign-in__sign-up>a {
+  cursor: pointer;
+  color: #5f5fef;
+}
+
+.sign-in__sign-up>a:hover {
+  color: #7c7ce0;
+  transition-duration: 0.6s;
 }
 </style>
