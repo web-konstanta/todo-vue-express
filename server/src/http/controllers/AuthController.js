@@ -50,6 +50,16 @@ class AuthController {
         }
     }
 
+    async signOut(req, res, next) {
+        try {
+            const { refreshToken } = req.cookies
+            await AuthService.signOut(refreshToken)
+            return res.json({message: 'You signed out successfully'})
+        } catch (e) {
+            next(e)
+        }
+    }
+
     async verify(req, res, next) {
         try {
             const verificationLink = req.params.link

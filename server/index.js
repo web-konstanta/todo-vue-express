@@ -2,7 +2,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
-import router from './routes/router.js'
+import router from './src/routes/router.js'
 import HttpErrorMiddleware from './src/http/middlewares/HttpErrorMiddleware.js'
 import dotenv from 'dotenv'
 

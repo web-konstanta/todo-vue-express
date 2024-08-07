@@ -64,6 +64,20 @@ class AuthService {
         return tokens
     }
 
+    async signOut(refreshToken) {
+        const userData = TokenService.validateRefreshToken(refreshToken)
+        if (! userData) {
+            throw HttpErrorHandler.unauthorized()
+        }
+
+        const user = await User.findById(userData.id)
+        if (! user) {
+            throw HttpErrorHandler.unauthorized()
+        }
+
+        await TokenService.removeRefreshToken(refreshToken)
+    }
+
     async verify(verificationLink) {
         const user = await User.findOne({verificationLink})
         if (user.isVerified) {

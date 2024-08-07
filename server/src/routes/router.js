@@ -1,4 +1,5 @@
-import AuthController from '../src/http/controllers/AuthController.js'
+import AuthController from '../http/controllers/AuthController.js'
+import AuthMiddleware from '../http/middlewares/AuthMiddleware.js'
 import { body } from 'express-validator'
 import Router from 'express'
 
@@ -16,6 +17,7 @@ router.post('/sign-in',
     body('password').isLength({ min: 6, max: 30 }),
     AuthController.signIn.bind(AuthController)
 )
+router.post('/sign-out', AuthMiddleware, AuthController.signOut)
 router.get('/verify/:link', AuthController.verify)
 
 export default router
