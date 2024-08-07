@@ -1,4 +1,4 @@
-import AuthController from '../controllers/AuthController.js'
+import AuthController from '../src/http/controllers/AuthController.js'
 import { body } from 'express-validator'
 import Router from 'express'
 

@@ -1,5 +1,5 @@
 import { validationResult } from 'express-validator'
-import AuthService from '../services/AuthService.js'
+import AuthService from '../../services/AuthService.js'
 import HttpErrorHandler from '../exceptions/HttpErrorHandler.js'
 
 class AuthController {

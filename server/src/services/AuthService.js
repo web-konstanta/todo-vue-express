@@ -1,10 +1,10 @@
 import User from '../models/User.js'
 import {UserDto} from '../dto/UserDto.js'
 import bcrypt from 'bcryptjs'
-import TokenService from '../services/TokenService.js'
+import TokenService from './TokenService.js'
 import * as uuid from 'uuid'
-import MailService from '../services/MailService.js'
-import HttpErrorHandler from '../exceptions/HttpErrorHandler.js'
+import MailService from './MailService.js'
+import HttpErrorHandler from '../http/exceptions/HttpErrorHandler.js'
 import dotenv from 'dotenv'
 
 dotenv.config()
