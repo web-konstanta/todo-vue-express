@@ -19,7 +19,7 @@ class TokenService {
 
         if (tokenData) {
             tokenData.refreshToken = refreshToken
-            await tokenData.save()
+            return await tokenData.save()
         }
 
         return await Token.create({userId, refreshToken})

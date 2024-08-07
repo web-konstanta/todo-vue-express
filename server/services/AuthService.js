@@ -42,6 +42,28 @@ class AuthService {
         return tokens
     }
 
+    async signIn(data) {
+        const user = await User.findOne({email: data.email})
+        if (! user) {
+            throw HttpErrorHandler.badRequest(400, 'Email is invalid')
+        }
+
+        if (! user.isVerified) {
+            throw HttpErrorHandler.badRequest(400, 'Account not verified')
+        }
+
+        const isValidPassword = bcrypt.compareSync(data.password, user.password)
+        if (! isValidPassword) {
+            throw HttpErrorHandler.badRequest(400, `Password is invalid`)
+        }
+
+        const userDto = new UserDto(user)
+        const tokens = TokenService.generateTokens({ ...userDto })
+        await TokenService.saveRefreshToken(userDto.id, tokens.refreshToken)
+
+        return tokens
+    }
+
     async verify(verificationLink) {
         const user = await User.findOne({verificationLink})
         if (user.isVerified) {
