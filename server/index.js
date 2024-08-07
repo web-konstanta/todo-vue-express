@@ -2,9 +2,10 @@ import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
-import router from './routes/router.js'
-import HttpErrorMiddleware from './middlewares/HttpErrorMiddleware.js'
+import router from './src/routes/router.js'
+import HttpErrorMiddleware from './src/http/middlewares/HttpErrorMiddleware.js'
 import dotenv from 'dotenv'
+
 dotenv.config()
 
 const PORT = process.env.PORT || 5000

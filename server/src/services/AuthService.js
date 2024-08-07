@@ -1,10 +1,10 @@
 import User from '../models/User.js'
 import {UserDto} from '../dto/UserDto.js'
 import bcrypt from 'bcryptjs'
-import TokenService from '../services/TokenService.js'
+import TokenService from './TokenService.js'
 import * as uuid from 'uuid'
-import MailService from '../services/MailService.js'
-import HttpErrorHandler from '../exceptions/HttpErrorHandler.js'
+import MailService from './MailService.js'
+import HttpErrorHandler from '../http/exceptions/HttpErrorHandler.js'
 import dotenv from 'dotenv'
 
 dotenv.config()
@@ -40,6 +40,42 @@ class AuthService {
         await MailService.sendVerificationLink(data.email, `${process.env.API_URL}/api/verify/${verificationLink}`)
 
         return tokens
+    }
+
+    async signIn(data) {
+        const user = await User.findOne({email: data.email})
+        if (! user) {
+            throw HttpErrorHandler.badRequest(400, 'Email is invalid')
+        }
+
+        if (! user.isVerified) {
+            throw HttpErrorHandler.badRequest(400, 'Account not verified')
+        }
+
+        const isValidPassword = bcrypt.compareSync(data.password, user.password)
+        if (! isValidPassword) {
+            throw HttpErrorHandler.badRequest(400, `Password is invalid`)
+        }
+
+        const userDto = new UserDto(user)
+        const tokens = TokenService.generateTokens({ ...userDto })
+        await TokenService.saveRefreshToken(userDto.id, tokens.refreshToken)
+
+        return tokens
+    }
+
+    async signOut(refreshToken) {
+        const userData = TokenService.validateRefreshToken(refreshToken)
+        if (! userData) {
+            throw HttpErrorHandler.unauthorized()
+        }
+
+        const user = await User.findById(userData.id)
+        if (! user) {
+            throw HttpErrorHandler.unauthorized()
+        }
+
+        await TokenService.removeRefreshToken(refreshToken)
     }
 
     async verify(verificationLink) {
