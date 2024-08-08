@@ -10,9 +10,7 @@ export default (req, res, next) => {
         }
 
         const accessToken = bearerToken.split(' ')[1]
-        console.log(accessToken)
         const userData = TokenService.validateAccessToken(accessToken)
-        console.log(userData)
 
         if (! userData) {
             next(HttpErrorHandler.unauthorized())
