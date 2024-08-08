@@ -6,6 +6,7 @@ import * as uuid from 'uuid'
 import MailService from './MailService.js'
 import HttpErrorHandler from '../http/exceptions/HttpErrorHandler.js'
 import dotenv from 'dotenv'
+import user from "../models/User.js";
 
 dotenv.config()
 
@@ -76,6 +77,20 @@ class AuthService {
         }
 
         await TokenService.removeRefreshToken(refreshToken)
+    }
+
+    async refresh(refreshToken) {
+        const userData = TokenService.validateRefreshToken(refreshToken)
+        if (! userData) {
+            throw HttpErrorHandler.unauthorized()
+        }
+
+        const user = await User.findById(userData.id)
+        const userDto = new UserDto(user)
+        const tokens = TokenService.generateTokens({ ...userDto })
+        await TokenService.saveRefreshToken(userDto.id, tokens.refreshToken)
+
+        return tokens
     }
 
     async verify(verificationLink) {

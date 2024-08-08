@@ -18,6 +18,7 @@ router.post('/sign-in',
     AuthController.signIn.bind(AuthController)
 )
 router.post('/sign-out', AuthMiddleware, AuthController.signOut)
+router.get('/refresh', AuthController.refresh)
 router.get('/verify/:link', AuthController.verify)
 
 export default router

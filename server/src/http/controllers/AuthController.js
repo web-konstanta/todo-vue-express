@@ -7,6 +7,7 @@ class AuthController {
         this.refreshCookieTimeout = 60 * 60 * 1000
         this.signUp = this.signUp.bind(this)
         this.signIn = this.signIn.bind(this)
+        this.refresh = this.refresh.bind(this)
     }
 
     async signUp(req, res, next) {
@@ -54,7 +55,22 @@ class AuthController {
         try {
             const { refreshToken } = req.cookies
             await AuthService.signOut(refreshToken)
+            res.clearCookie('refreshToken')
             return res.json({message: 'You signed out successfully'})
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async refresh(req, res, next) {
+        try {
+            const { refreshToken } = req.cookies
+            const tokens = await AuthService.refresh(refreshToken)
+            res.cookie('refreshToken', tokens.refreshToken, { maxAge: this.refreshCookieTimeout, httpOnly: true })
+            return res.json({
+                tokens: tokens,
+                message: 'Tokens refreshed successfully'
+            })
         } catch (e) {
             next(e)
         }
