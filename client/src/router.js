@@ -5,7 +5,7 @@ import SignIn from './components/Auth/SignIn.vue'
 
 const routes = [
     { path: '/auth/sign-up', component: SignUp },
-    { path: '/auth/sign-in', component: SignIn },
+    { path: '/auth/sign-in', component: SignIn }
 ]
 
 const router = createRouter({
