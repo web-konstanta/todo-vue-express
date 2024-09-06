@@ -103,3 +103,17 @@
 .form__redirect>a:hover {
     text-decoration: underline;
 }
+
+.form__send {
+    width: 350px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #eeeeee;
+    margin-top: 10px;
+    background-color: blue;
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: -10px;
+}

@@ -35,6 +35,9 @@
                     type="password"
                 >
             </div>
+            <div class="form__item">
+                <button class="form__send">Sign up</button>
+            </div>
             <p class="form__redirect">Have an account? <a @click="goToSignIn">Sign in</a></p>
         </div>
     </form>
