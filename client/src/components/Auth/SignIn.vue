@@ -31,6 +31,7 @@
             <div class="form__item">
                 <button class="form__send">Sign in</button>
             </div>
+            <a class="form__forgot-password" @click="goToResetPassword">Forgot password?</a>
             <p class="form__redirect">No account? <a @click="goToSignUp">Sign up</a></p>
         </div>
     </form>
@@ -52,6 +53,9 @@ export default {
     methods: {
         goToSignUp() {
             this.$router.push('/auth/sign-up')
+        },
+        goToResetPassword() {
+            this.$router.push('/reset-password')
         }
     }
 }
