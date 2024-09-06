@@ -28,6 +28,9 @@
                     type="password"
                 >
             </div>
+            <div class="form__item">
+                <button class="form__send">Sign in</button>
+            </div>
             <p class="form__redirect">No account? <a @click="goToSignUp">Sign up</a></p>
         </div>
     </form>
