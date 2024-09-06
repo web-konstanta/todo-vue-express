@@ -1,0 +1,105 @@
+.form {
+    max-width: 400px;
+    margin: 0 auto;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0px 10px 60px 10px #b1adad;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top:50%;
+    transform: translate(0, -50%);
+}
+
+.form__container {
+    max-width: 350px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form__title {
+    font-size: 23px;
+    text-align: left;
+}
+
+.form__subtitle {
+    font-size: 16px;
+    text-align: left;
+    margin-top: -10px;
+    opacity: 0.8;
+}
+
+.form__item {
+    font-size: 14px;
+    max-width: 350px;
+    margin: 15px auto;
+}
+
+.form__input {
+    width: 318px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #eeeeee;
+    margin-top: 10px;
+}
+
+.form__google-auth {
+    width: 350px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #eeeeee;
+    margin-top: 10px;
+    text-align: left;
+    background-color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.form__google-auth:hover {
+    background-color: #efefef;
+    transition-duration: 0.5s;
+}
+
+.form__google-icon {
+    margin: 0 15px 0 8px;
+}
+
+.form__or {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    text-align: center;
+    font-size: 14px;
+}
+
+.form__or::before,
+.form__or::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid #ccc;
+}
+
+.form__or::before {
+    margin-right: 15px;
+}
+
+.form__or::after {
+    margin-left: 15px;
+}
+
+.form__redirect {
+    opacity: 0.8;
+}
+
+.form__redirect>a {
+    color: blue;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.form__redirect>a:hover {
+    text-decoration: underline;
+}
