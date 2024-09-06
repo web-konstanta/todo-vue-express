@@ -1,5 +1,5 @@
 <template>
-    <form class="form">
+    <form class="form" enctype="multipart/form-data">
         <div class="form__container">
             <h1 class="form__title">Create your account</h1>
             <p class="form__subtitle">to continue to application</p>
@@ -19,6 +19,14 @@
                 <input
                     class="form__input"
                     type="text"
+                    accept="image/png, image/jpg"
+                >
+            </div>
+            <div class="form__item">
+                <label>Avatar</label>
+                <input
+                    class="form__input"
+                    type="file"
                 >
             </div>
             <div class="form__item">
