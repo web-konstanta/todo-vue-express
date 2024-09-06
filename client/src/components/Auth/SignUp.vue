@@ -23,13 +23,6 @@
                 >
             </div>
             <div class="form__item">
-                <label>Avatar</label>
-                <input
-                    class="form__input"
-                    type="file"
-                >
-            </div>
-            <div class="form__item">
                 <label>Email address</label>
                 <input
                     class="form__input"
