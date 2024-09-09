@@ -1,3 +1,9 @@
+<script>
+import '../../assets/css/form.css'
+
+export default {}
+</script>
+
 <template>
     <form class="form">
         <div class="form__container">
@@ -6,9 +12,3 @@
         </div>
     </form>
 </template>
-
-<script>
-import '../../assets/style/form.css'
-
-export default {}
-</script>

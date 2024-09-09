@@ -1,3 +1,24 @@
+<script>
+import '../../assets/css/form.css'
+import { GoogleLogin } from 'vue3-google-login'
+
+export default {
+    components: {
+        GoogleLogin
+    },
+    data() {
+        return {
+            yourClientId: 'YOUR_CLIENT_ID'
+        }
+    },
+    methods: {
+        goToSignIn() {
+            this.$router.push('/auth/sign-in')
+        }
+    }
+}
+</script>
+
 <template>
     <form class="form" enctype="multipart/form-data">
         <div class="form__container">
@@ -43,24 +64,3 @@
         </div>
     </form>
 </template>
-
-<script>
-import '../../assets/style/form.css'
-import { GoogleLogin } from 'vue3-google-login'
-
-export default {
-    components: {
-        GoogleLogin
-    },
-    data() {
-        return {
-            yourClientId: 'YOUR_CLIENT_ID'
-        }
-    },
-    methods: {
-        goToSignIn() {
-            this.$router.push('/auth/sign-in')
-        }
-    }
-}
-</script>
