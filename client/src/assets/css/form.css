@@ -29,6 +29,7 @@
     text-align: left;
     margin-top: -10px;
     opacity: 0.8;
+    margin-top: 10px;
 }
 
 .form__item {
@@ -38,11 +39,11 @@
 }
 
 .form__input {
-    width: 318px;
+    width: 347px;
     padding: 10px 15px;
     border-radius: 8px;
     border: 1px solid #eeeeee;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 .form__google-auth {
@@ -73,6 +74,7 @@
     text-align: center;
     text-align: center;
     font-size: 14px;
+    margin: 10px 0;
 }
 
 .form__or::before,
@@ -92,6 +94,7 @@
 
 .form__redirect {
     opacity: 0.8;
+    margin-top: 15px;
 }
 
 .form__forgot-password {
@@ -132,4 +135,5 @@
 
 .form__label-description {
     font-size: 12px;
+    margin-top: 10px;
 }

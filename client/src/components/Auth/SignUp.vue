@@ -20,7 +20,7 @@ export default {
 </script>
 
 <template>
-    <form class="form" enctype="multipart/form-data">
+    <form class="form">
         <div class="form__container">
             <h1 class="form__title">Create your account</h1>
             <p class="form__subtitle">to continue to application</p>

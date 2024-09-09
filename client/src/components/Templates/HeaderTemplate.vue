@@ -1,5 +1,11 @@
 <script>
-export default {};
+export default {
+    methods: {
+        goToAccount() {
+            this.$router.push('/account')
+        }
+    }
+}
 </script>
 
 <template>
@@ -7,7 +13,7 @@ export default {};
         <ul class="header__menu">
             <li class="header__menu-logo">Home</li>
             <li class="header__menu-options">
-                <button>Manage account</button>
+                <button @click="goToAccount">Manage account</button>
                 <button>Sign out</button>
             </li>
         </ul>
