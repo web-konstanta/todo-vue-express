@@ -1,0 +1,105 @@
+label {
+    font-size: 14px;
+    display: block;
+}
+
+input {
+    width: 318px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #eeeeee;
+    margin-top: 10px;
+}
+
+.account {
+    max-width: 1000px;
+    margin: auto;
+    padding: 25px;
+    border-radius: 20px;
+}
+
+.account__greet {
+    text-align: center;
+    font-weight: 600;
+    font-size: 30px;
+}
+
+.account__subgreet {
+    text-align: center;
+}
+
+.personal {
+    max-width: 800px;
+    margin: 25px auto;
+}
+
+.avatar {
+    text-align: center;
+    padding: 15px 0;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.avatar__input {
+    width: 318px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #eeeeee;
+    margin-top: 15px;
+}
+
+.avatar__save {
+    width: 350px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #eeeeee;
+    margin-top: 10px;
+    background-color: blue;
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: -10px;
+}
+
+.avatar__save:hover {
+    background-color: rgb(80, 80, 255);
+    transition-duration: 0.6s;
+}
+
+.security {
+    padding: 15px 0;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.security__data-title {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.security__data-input {
+    margin-top: 15px;
+}
+
+.security__data-save {
+    width: 320px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #eeeeee;
+    margin-top: 10px;
+    background-color: blue;
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.security__reset-password {
+    min-width: 300px;
+}
