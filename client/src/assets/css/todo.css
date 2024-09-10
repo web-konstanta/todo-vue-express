@@ -1,0 +1,52 @@
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.table {
+    margin: auto;
+    width: 700px;
+}
+
+.table__number {
+    width: 100px;
+}
+
+.table__options {
+    width: 250px;
+    text-align: center;
+}
+
+.table__option {
+    cursor: pointer;
+}
+
+.todo {
+    max-width: 800px;
+    margin: auto;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0px 10px 60px 10px #b1adad;
+    margin-top: 25px;
+    box-shadow: 0px 10px 60px 10px #b1adad;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top:50%;
+    transform: translate(0, -50%);
+}
+
+.todo__title {
+    text-align: center;
+    font-weight: 700;
+}
+
+.todo__done {
+    text-decoration: line-through;
+}
+
+.table__empty {
+    margin-top: 15px;
+    font-size: 18px;
+}

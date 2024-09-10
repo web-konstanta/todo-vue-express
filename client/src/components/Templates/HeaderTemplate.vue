@@ -3,6 +3,9 @@ export default {
     methods: {
         goToAccount() {
             this.$router.push('/account')
+        },
+        goToMain() {
+            this.$router.push('/')
         }
     }
 }
@@ -11,10 +14,14 @@ export default {
 <template>
     <div class="header">
         <ul class="header__menu">
-            <li class="header__menu-logo">Home</li>
+            <li class="header__menu-logo" @click="goToMain">
+                <img src="../../assets/icons/logo.png" alt="logo" width="40">
+            </li>
             <li class="header__menu-options">
-                <button @click="goToAccount">Manage account</button>
                 <button>Sign out</button>
+                <button @click="goToAccount">
+                    <img src="../../assets/icons/no-avatar.png" alt="avatar" width="40">
+                </button>
             </li>
         </ul>
     </div>
@@ -45,6 +52,7 @@ ul {
 
 .header__menu-logo {
     padding: 10px 15px;
+    cursor: pointer;
 }
 
 .header__menu-options {
