@@ -1,14 +1,14 @@
 <script>
 import '../../assets/css/account.css'
-import HeaderComponent from '../Templates/HeaderTemplate'
+import HeaderTemplate from '../Templates/HeaderTemplate'
 
 export default {
-    components: { HeaderComponent }
+    components: { HeaderTemplate }
 }
 </script>
 
 <template>
-    <HeaderComponent />
+    <HeaderTemplate />
     <div class="account">
         <div class="account__greet">Hello, John Doe!</div>
         <div class="account__subgreet">Welcome to your account</div>
