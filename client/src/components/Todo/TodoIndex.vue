@@ -10,16 +10,19 @@ export default {
                 {
                     id: 1,
                     title: 'first todo',
+                    description: 'first todo descriptiondfsgfegrhtdymfugjt',
                     isDone: false
                 },
                 {
                     id: 2,
                     title: 'second todo',
+                    description: 'second todo description',
                     isDone: true
                 },
                 {
                     id: 3,
                     title: 'third todo',
+                    description: 'third todo description',
                     isDone: false
                 }
             ]
@@ -28,6 +31,9 @@ export default {
     methods: {
         markAsDone(todoId) {
             console.log(`Todo №${todoId} done`)
+        },
+        goToUpdate(todoId) {
+            this.$router.push('/todo/update/' + todoId)
         },
         deleteTodo(index, todoId) {
             console.log(`Todo №${todoId} deleted`)
@@ -45,7 +51,8 @@ export default {
             <thead>
                 <tr>
                     <th class="table__number">№</th>
-                    <th class="table__title">Title</th>
+                    <th>Title</th>
+                    <th>Description</th>
                     <th class="table__options">Options</th>
                 </tr>
             </thead>
@@ -58,14 +65,17 @@ export default {
                     <td
                         :class="todo.isDone ? 'todo__done' : ''"
                     >{{ todo.title }}</td>
-                    <td style="display: flex; justify-content: space-between; align-items: center;">
+                    <td
+                        :class="todo.isDone ? 'todo__done' : ''"
+                    >{{ todo.description }}</td>
+                    <td class="table__options-item">
                         <input
-                            style="width: 32px; cursor: pointer"
+                            class="table__options-checkbox"
                             type="checkbox"
                             v-model="todo.isDone"
                             @click="markAsDone(todo.id)"
                         >
-                        <div class="table__option">
+                        <div class="table__option" @click="goToUpdate(todo.id)">
                             <img
                                 src="../../assets/icons/update.png"
                                 alt="update todo"
