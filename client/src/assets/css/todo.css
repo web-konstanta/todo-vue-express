@@ -10,12 +10,23 @@ th, td {
 }
 
 .table__number {
-    width: 100px;
+    width: 60px;
 }
 
 .table__options {
-    width: 250px;
+    width: 210px;
     text-align: center;
+}
+
+.table__options-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table__options-checkbox {
+    width: 32px;
+    cursor: pointer;
 }
 
 .table__option {
