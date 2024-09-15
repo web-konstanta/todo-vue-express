@@ -2,13 +2,19 @@ import express, { Request, Response } from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 dotenv.config()
+import oauthRouter from './routes/googleAuthRouter.js'
 
 const PORT = process.env.PORT || 5000
 
 const app = express()
 
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+    methods: '*',
+    credentials: true
+}))
+app.use('/google', oauthRouter)
 
 app.get('/', (req: Request, res: Response) => {
     res.json({status: 'success'})
