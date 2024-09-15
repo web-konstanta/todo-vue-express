@@ -10,7 +10,7 @@ export default {
                 {
                     id: 1,
                     title: 'first todo',
-                    description: 'first todo descriptiondfsgfegrhtdymfugjt',
+                    description: 'first todo description',
                     isDone: false
                 },
                 {
