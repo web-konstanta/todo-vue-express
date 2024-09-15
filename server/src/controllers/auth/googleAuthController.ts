@@ -10,7 +10,9 @@ class GoogleAuthController {
         if (typeof code === 'string') {
             const userData = await googleAuthService.getUserData(code)
             console.log(userData)
-            return res.redirect(`${process.env.CLIENT_URL}/todo`)
+            return res.status(302).redirect(`${process.env.CLIENT_URL}/todo`)
+        } else {
+            return res.status(302).redirect(`${process.env.CLIENT_URL}`)
         }
     }
 

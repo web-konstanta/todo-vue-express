@@ -24,7 +24,7 @@ export default {
             <h1 class="form__title">Sign in</h1>
             <p class="form__subtitle">to continue to application</p>
             <div class="form__item">
-                <button type="button"class="form__google-auth" @click="auth">
+                <button type="button" class="form__google-auth" @click="auth">
                     <img class="form__google-icon" src="../../assets/icons/google.svg" alt="google icon">
                     Continue with Google
                 </button>

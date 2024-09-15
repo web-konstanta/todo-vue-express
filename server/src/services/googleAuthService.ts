@@ -20,7 +20,7 @@ class GoogleAuthService {
         )
     }
 
-    public async getAuthorizeUrl() {
+    public async getAuthorizeUrl(): Promise<string> {
         return this.oAuth2Client.generateAuthUrl({
             access_type: 'offline',
             scope: this.scope,
@@ -28,7 +28,7 @@ class GoogleAuthService {
         })
     }
 
-    public async getUserData(code: string) {
+    public async getUserData(code: string): Promise<any> {
         try {
             const result = await this.oAuth2Client.getToken(code)
             await this.oAuth2Client.setCredentials(result.tokens)
