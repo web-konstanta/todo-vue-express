@@ -1,14 +1,16 @@
 <script>
 import '../../assets/css/todo.css'
 import HeaderTemplate from '../Templates/HeaderTemplate'
-import Cookies from 'js-cookie'
 
 export default {
     components: { HeaderTemplate },
     mounted() {
-        const accessToken = Cookies.get('accessToken')
-        localStorage.setItem('accessToken', accessToken)
-        Cookies.remove('accessToken')
+        const cookieToken = this.$cookies.get('accessToken')
+
+        if (cookieToken) {
+            localStorage.setItem('accessToken', this.$cookies.get('accessToken'))
+            this.$cookies.remove('accessToken')
+        }
     },
     data() {
         return {

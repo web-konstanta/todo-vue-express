@@ -1,4 +1,7 @@
+import tokenService from './tokenService.js'
 import { OAuth2Client } from 'google-auth-library'
+import prisma from '../db/prisma.js'
+import UserDto from '../db/dto/userDto.js'
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -43,6 +46,38 @@ class GoogleAuthService {
         } catch (e) {
             console.log(e)
         }
+    }
+
+    public async auth(code: string) {
+        const userData = await this.getUserData(code)
+
+        const candidate = await prisma.user.findUnique({
+            where: {
+                email: userData.email
+            }
+        })
+
+        const payload = new UserDto(userData)
+
+        const tokens = tokenService.generateTokens({ ...payload })
+
+        if (!candidate) {
+            const user = await prisma.user.create({
+                data: {
+                    name: userData.name,
+                    email: userData.email,
+                    avatar: userData.picture,
+                    verifiedAt: new Date(),
+                    oAuth: true
+                }
+            })
+
+            await tokenService.saveRefreshToken(tokens.refreshToken, user.id)
+        } else {
+            await tokenService.saveRefreshToken(tokens.refreshToken, candidate.id)
+        }
+
+        return tokens
     }
 }
 
