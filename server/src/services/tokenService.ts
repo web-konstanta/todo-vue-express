@@ -1,4 +1,5 @@
 import JwtPayload from '../types/jwtPayload.js'
+import prisma from '../db/prisma.js'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 dotenv.config()
@@ -12,6 +13,21 @@ class TokenService {
             accessToken,
             refreshToken
         }
+    }
+
+    public async saveRefreshToken(refreshToken: string, userId: number) {
+        await prisma.refreshToken.upsert({
+            where: {
+                userId: userId
+            },
+            update: {
+                token: refreshToken
+            },
+            create: {
+                token: refreshToken,
+                userId: userId
+            }
+        })
     }
 }
 
