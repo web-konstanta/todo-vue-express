@@ -1,4 +1,4 @@
-import UserData from "../../types/userData.js"
+import UserData from '../../types/userData.js'
 
 export default class UserDto {
     id: Number
