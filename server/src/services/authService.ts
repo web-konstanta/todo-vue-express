@@ -3,6 +3,7 @@ import UserData from '../types/userData.js'
 import UserDto from '../db/dto/userDto.js'
 import prisma from '../db/prisma.js'
 import bcrypt from 'bcryptjs'
+import HttpErrorException from "../exceptions/httpErrorException.js";
 
 class AuthService {
     public async signUp(data: UserData): Promise<any> {
@@ -13,7 +14,7 @@ class AuthService {
         })
 
         if (candidate) {
-            throw new Error('User with this email already exists')
+            throw new HttpErrorException('User with this email already exists', 400)
         }
 
         const hashedPassword = await bcrypt.hash(data.password!, 7)

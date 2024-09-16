@@ -1,9 +1,11 @@
 import oauthRouter from './routes/googleAuthRouter.js'
 import authRouter from './routes/authRouter.js'
+import httpError from './middlewares/httpError.js'
 import cookieParser from 'cookie-parser'
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
+
 dotenv.config()
 
 const PORT = process.env.PORT || 5000
@@ -19,5 +21,6 @@ app.use(cors({
 }))
 app.use('/google', oauthRouter)
 app.use('/api/auth', authRouter)
+app.use(httpError)
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`))

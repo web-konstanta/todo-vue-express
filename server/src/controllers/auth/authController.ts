@@ -1,13 +1,14 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { validationResult } from 'express-validator'
 import authService from '../../services/authService.js'
+import HttpErrorException from '../../exceptions/httpErrorException.js'
 
 class AuthController {
-    public async signUp(req: Request, res: Response): Promise<any> {
+    public async signUp(req: Request, res: Response, next: NextFunction): Promise<any> {
         try {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
-                return res.status(422).json({ errors: errors.array() })
+                return next(HttpErrorException.validationError(errors.array()))
             }
 
             const data = req.body
@@ -15,7 +16,7 @@ class AuthController {
 
             return res.json(tokens)
         } catch (e) {
-            console.log(e)
+            next(e)
         }
     }
 }
