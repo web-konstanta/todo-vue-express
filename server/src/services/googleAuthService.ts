@@ -6,9 +6,9 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 class GoogleAuthService {
-    private redirectUrl: string
+    private readonly redirectUrl: string
     private oAuth2Client: OAuth2Client
-    private scope: string
+    private readonly scope: string
 
     constructor() {
         this.redirectUrl = `${process.env.API_URL}/google/callback`

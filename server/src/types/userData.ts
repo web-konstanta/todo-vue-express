@@ -1,7 +1,8 @@
 type UserData = {
-    id: Number,
-    email: String,
-    name: String
+    id: number,
+    email: string,
+    name: string,
+    password?: string
 }
 
 export default UserData
