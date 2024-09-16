@@ -3,7 +3,8 @@ import UserData from '../types/userData.js'
 import UserDto from '../db/dto/userDto.js'
 import prisma from '../db/prisma.js'
 import bcrypt from 'bcryptjs'
-import HttpErrorException from "../exceptions/httpErrorException.js";
+import HttpErrorException from '../exceptions/httpErrorException.js'
+import * as uuid from 'uuid'
 
 class AuthService {
     public async signUp(data: UserData): Promise<any> {
@@ -18,12 +19,14 @@ class AuthService {
         }
 
         const hashedPassword = await bcrypt.hash(data.password!, 7)
+        const activationLink = uuid.v4()
 
         const user = await prisma.user.create({
             data: {
                 name: data.name,
                 email: data.email,
                 password: hashedPassword,
+                activationLink
             }
         })
 
