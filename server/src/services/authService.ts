@@ -31,7 +31,7 @@ class AuthService {
             }
         })
 
-        await mailService.sendActivationMail(user.email, `${process.env.API_URL}/activate/${activationLink}`)
+        await mailService.sendActivationMail(user.email, `${process.env.API_URL}/api/auth/activate/${activationLink}`)
 
         const payload = new UserDto({
             id: user.id,
@@ -43,6 +43,31 @@ class AuthService {
         await tokenService.saveRefreshToken(tokens.refreshToken, user.id)
 
         return tokens
+    }
+
+    public async activate(activationLink: string): Promise<void> {
+        const user = await prisma.user.findFirst({
+            where: {
+                activationLink
+            }
+        })
+
+        if (!user) {
+            throw new HttpErrorException('Activation link is invalid', 400)
+        }
+
+        if (user.verifiedAt) {
+            throw new HttpErrorException('Account have already been verified', 400)
+        }
+
+        await prisma.user.update({
+            where: {
+                id: user.id
+            },
+            data: {
+                verifiedAt: new Date()
+            }
+        })
     }
 }
 

@@ -19,6 +19,18 @@ class AuthController {
             next(e)
         }
     }
+
+    public async activate(req: Request, res: Response, next: NextFunction): Promise<any> {
+        try {
+            const { link: activationLink } = req.params
+
+            await authService.activate(activationLink)
+
+            return res.redirect(`${process.env.CLIENT_URL}`, 302)
+        } catch (e) {
+            next(e)
+        }
+    }
 }
 
 export default new AuthController()
