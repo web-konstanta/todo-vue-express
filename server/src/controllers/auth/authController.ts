@@ -14,6 +14,30 @@ class AuthController {
             const data = req.body
             const tokens = await authService.signUp(data)
 
+            res.cookie('refreshToken', tokens.refreshToken, {
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+                httpOnly: true
+            })
+            return res.json(tokens)
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    public async signIn(req: Request, res: Response, next: NextFunction): Promise<any> {
+        try {
+            const errors = validationResult(req)
+            if (!errors.isEmpty()) {
+                return next(HttpErrorException.validationError(errors.array()))
+            }
+
+            const data = req.body
+            const tokens = await authService.signIn(data.email, data.password)
+
+            res.cookie('refreshToken', tokens.refreshToken, {
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+                httpOnly: true
+            })
             return res.json(tokens)
         } catch (e) {
             next(e)

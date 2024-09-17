@@ -16,7 +16,7 @@ class AuthService {
         })
 
         if (candidate) {
-            throw new HttpErrorException('User with this email already exists', 400)
+            throw HttpErrorException.badRequest('User with this email already exists', 400)
         }
 
         const hashedPassword = await bcrypt.hash(data.password!, 7)
@@ -36,7 +36,40 @@ class AuthService {
         const payload = new UserDto({
             id: user.id,
             name: user.name,
-            email: data.email
+            email: user.email
+        })
+
+        const tokens = tokenService.generateTokens({ ...payload })
+        await tokenService.saveRefreshToken(tokens.refreshToken, user.id)
+
+        return tokens
+    }
+
+    public async signIn(email: string, password: string): Promise<any> {
+        const user = await prisma.user.findUnique({
+            where: {
+                email
+            }
+        })
+
+        if (!user) {
+            throw HttpErrorException.badRequest('Email is invalid', 400)
+        }
+
+        if (!user.verifiedAt) {
+            throw HttpErrorException.badRequest('Account not activated', 400)
+        }
+
+        const isValidPassword = await bcrypt.compare(password, user.password!)
+
+        if (!isValidPassword) {
+            throw HttpErrorException.badRequest('Password is invalid', 400)
+        }
+
+        const payload = new UserDto({
+            id: user.id,
+            name: user.name,
+            email: user.email
         })
 
         const tokens = tokenService.generateTokens({ ...payload })
