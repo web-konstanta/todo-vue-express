@@ -1,4 +1,5 @@
 import tokenService from './tokenService.js'
+import mailService from './mailService.js'
 import UserData from '../types/userData.js'
 import UserDto from '../db/dto/userDto.js'
 import prisma from '../db/prisma.js'
@@ -29,6 +30,8 @@ class AuthService {
                 activationLink
             }
         })
+
+        await mailService.sendActivationMail(user.email, `${process.env.API_URL}/activate/${activationLink}`)
 
         const payload = new UserDto({
             id: user.id,
