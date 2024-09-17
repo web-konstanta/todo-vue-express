@@ -44,6 +44,37 @@ class AuthController {
         }
     }
 
+    public async signOut(req: Request, res: Response, next: NextFunction): Promise<any> {
+        try {
+            const { refreshToken } = req.cookies
+
+            await authService.signOut(refreshToken)
+
+            res.clearCookie('refreshToken')
+            return res.json({
+                message: 'You signed out successfully'
+            })
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    public async refresh(req: Request, res: Response, next: NextFunction): Promise<any> {
+        try {
+            const { refreshToken } = req.cookies
+
+            const tokens = await authService.refresh(refreshToken)
+
+            res.cookie('refreshToken', tokens.refreshToken, {
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+                httpOnly: true
+            })
+            return res.json(tokens)
+        } catch (e) {
+            next(e)
+        }
+    }
+
     public async activate(req: Request, res: Response, next: NextFunction): Promise<any> {
         try {
             const { link: activationLink } = req.params

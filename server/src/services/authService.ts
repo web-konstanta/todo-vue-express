@@ -78,6 +78,83 @@ class AuthService {
         return tokens
     }
 
+    public async signOut(refreshToken: string): Promise<any> {
+        const userData = tokenService.validateRefreshToken(refreshToken)
+
+        if (!userData) {
+            throw HttpErrorException.unauthorized()
+        }
+
+        const tokenInstance = await prisma.refreshToken.findFirst({
+            where: {
+                token: refreshToken
+            }
+        })
+
+        if (!tokenInstance) {
+            throw HttpErrorException.unauthorized()
+        }
+
+        const user = await prisma.user.findUnique({
+            where: {
+                id: tokenInstance.userId
+            }
+        })
+
+        if (!user) {
+            throw HttpErrorException.unauthorized()
+        }
+
+        await prisma.refreshToken.delete({
+            where: {
+                userId: user.id
+            }
+        })
+    }
+
+    public async refresh(refreshToken: string): Promise<any> {
+        const userData = tokenService.validateRefreshToken(refreshToken)
+
+        if (!userData) {
+            throw HttpErrorException.unauthorized()
+        }
+
+        const tokenInstance = await prisma.refreshToken.findFirst({
+            where: {
+                token: refreshToken
+            }
+        })
+
+        if (!tokenInstance) {
+            throw HttpErrorException.unauthorized()
+        }
+
+        const user = await prisma.user.findUnique({
+            where: {
+                id: tokenInstance.userId
+            }
+        })
+
+        if (!user) {
+            throw HttpErrorException.unauthorized()
+        }
+
+        if (!user.verifiedAt) {
+            throw HttpErrorException.badRequest('Account not activated', 400)
+        }
+
+        const payload = new UserDto({
+            id: user.id,
+            name: user.name,
+            email: user.email
+        })
+
+        const tokens = tokenService.generateTokens({ ...payload })
+        await tokenService.saveRefreshToken(tokens.refreshToken, user.id)
+
+        return tokens
+    }
+
     public async activate(activationLink: string): Promise<void> {
         const user = await prisma.user.findFirst({
             where: {

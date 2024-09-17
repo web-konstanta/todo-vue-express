@@ -5,6 +5,14 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 class TokenService {
+    public validateRefreshToken(refreshToken: string) {
+        try {
+            return jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET!)
+        } catch (e) {
+            return null
+        }
+    }
+
     public generateTokens(payload: JwtPayload) {
         const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET!, { expiresIn: '30m' })
         const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET!, { expiresIn: '30d' })

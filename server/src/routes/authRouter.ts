@@ -13,6 +13,8 @@ router.post('/sign-in',
     body('email', 'Email field is invalid').isEmail(),
     body('password').isLength({ min: 6, max: 30 }),
     authController.signIn)
+router.post('/sign-out', authController.signOut)
+router.post('/refresh', authController.refresh)
 router.get('/activate/:link', authController.activate)
 
 export default router
