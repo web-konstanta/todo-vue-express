@@ -1,4 +1,5 @@
 import tokenService from './tokenService.js'
+import mailService from './mailService.js'
 import UserData from '../types/userData.js'
 import UserDto from '../db/dto/userDto.js'
 import prisma from '../db/prisma.js'
@@ -15,7 +16,7 @@ class AuthService {
         })
 
         if (candidate) {
-            throw new HttpErrorException('User with this email already exists', 400)
+            throw HttpErrorException.badRequest('User with this email already exists', 400)
         }
 
         const hashedPassword = await bcrypt.hash(data.password!, 7)
@@ -30,16 +31,153 @@ class AuthService {
             }
         })
 
+        await mailService.sendActivationMail(user.email, `${process.env.API_URL}/api/auth/activate/${activationLink}`)
+
         const payload = new UserDto({
             id: user.id,
             name: user.name,
-            email: data.email
+            email: user.email
         })
 
         const tokens = tokenService.generateTokens({ ...payload })
         await tokenService.saveRefreshToken(tokens.refreshToken, user.id)
 
         return tokens
+    }
+
+    public async signIn(email: string, password: string): Promise<any> {
+        const user = await prisma.user.findUnique({
+            where: {
+                email
+            }
+        })
+
+        if (!user) {
+            throw HttpErrorException.badRequest('Email is invalid', 400)
+        }
+
+        if (!user.verifiedAt) {
+            throw HttpErrorException.badRequest('Account not activated', 400)
+        }
+
+        const isValidPassword = await bcrypt.compare(password, user.password!)
+
+        if (!isValidPassword) {
+            throw HttpErrorException.badRequest('Password is invalid', 400)
+        }
+
+        const payload = new UserDto({
+            id: user.id,
+            name: user.name,
+            email: user.email
+        })
+
+        const tokens = tokenService.generateTokens({ ...payload })
+        await tokenService.saveRefreshToken(tokens.refreshToken, user.id)
+
+        return tokens
+    }
+
+    public async signOut(refreshToken: string): Promise<any> {
+        const userData = tokenService.validateRefreshToken(refreshToken)
+
+        if (!userData) {
+            throw HttpErrorException.unauthorized()
+        }
+
+        const tokenInstance = await prisma.refreshToken.findFirst({
+            where: {
+                token: refreshToken
+            }
+        })
+
+        if (!tokenInstance) {
+            throw HttpErrorException.unauthorized()
+        }
+
+        const user = await prisma.user.findUnique({
+            where: {
+                id: tokenInstance.userId
+            }
+        })
+
+        if (!user) {
+            throw HttpErrorException.unauthorized()
+        }
+
+        await prisma.refreshToken.delete({
+            where: {
+                userId: user.id
+            }
+        })
+    }
+
+    public async refresh(refreshToken: string): Promise<any> {
+        const userData = tokenService.validateRefreshToken(refreshToken)
+
+        if (!userData) {
+            throw HttpErrorException.unauthorized()
+        }
+
+        const tokenInstance = await prisma.refreshToken.findFirst({
+            where: {
+                token: refreshToken
+            }
+        })
+
+        if (!tokenInstance) {
+            throw HttpErrorException.unauthorized()
+        }
+
+        const user = await prisma.user.findUnique({
+            where: {
+                id: tokenInstance.userId
+            }
+        })
+
+        if (!user) {
+            throw HttpErrorException.unauthorized()
+        }
+
+        if (!user.verifiedAt) {
+            throw HttpErrorException.badRequest('Account not activated', 400)
+        }
+
+        const payload = new UserDto({
+            id: user.id,
+            name: user.name,
+            email: user.email
+        })
+
+        const tokens = tokenService.generateTokens({ ...payload })
+        await tokenService.saveRefreshToken(tokens.refreshToken, user.id)
+
+        return tokens
+    }
+
+    public async activate(activationLink: string): Promise<void> {
+        const user = await prisma.user.findFirst({
+            where: {
+                activationLink
+            }
+        })
+
+        if (!user) {
+            throw new HttpErrorException('Activation link is invalid', 400)
+        }
+
+        if (user.verifiedAt) {
+            throw new HttpErrorException('Account have already been verified', 400)
+        }
+
+        await prisma.user.update({
+            where: {
+                id: user.id
+            },
+            data: {
+                verifiedAt: new Date()
+            }
+        })
     }
 }
 

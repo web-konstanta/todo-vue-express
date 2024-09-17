@@ -1,5 +1,6 @@
 import oauthRouter from './routes/googleAuthRouter.js'
 import authRouter from './routes/authRouter.js'
+import accountRouter from './routes/accountRouter.js'
 import httpError from './middlewares/httpError.js'
 import cookieParser from 'cookie-parser'
 import express from 'express'
@@ -21,6 +22,7 @@ app.use(cors({
 }))
 app.use('/google', oauthRouter)
 app.use('/api/auth', authRouter)
+app.use('/api/account', accountRouter)
 app.use(httpError)
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
