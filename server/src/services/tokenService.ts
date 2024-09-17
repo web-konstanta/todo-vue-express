@@ -5,6 +5,14 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 class TokenService {
+    public validateAccessToken(accessToken: string) {
+        try {
+            return jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET!)
+        } catch (e) {
+            return null
+        }
+    }
+
     public validateRefreshToken(refreshToken: string) {
         try {
             return jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET!)
