@@ -1,3 +1,5 @@
+import store from '../store'
+
 import SignUp from '@/components/Auth/SignUp.vue'
 import SignIn from '@/components/Auth/SignIn.vue'
 import ResetPassword from '@/components/Auth/ResetPassword.vue'
@@ -12,8 +14,9 @@ const routes = [
         beforeEnter: (to, from, next) => {
             if (localStorage.getItem('accessToken')) {
                 next('/todo')
+            } else {
+                next()
             }
-            next()
         }
     },
     {
@@ -22,8 +25,9 @@ const routes = [
         beforeEnter: (to, from, next) => {
             if (localStorage.getItem('accessToken')) {
                 next('/todo')
+            } else {
+                next()
             }
-            next()
         }
     },
     {
@@ -32,18 +36,22 @@ const routes = [
         beforeEnter: (to, from, next) => {
             if (localStorage.getItem('accessToken')) {
                 next('/todo')
+            } else {
+                next()
             }
-            next()
         }
     },
     {
         path: '/verify',
         component: VerifyAccount,
         beforeEnter: (to, from, next) => {
-            if (localStorage.getItem('accessToken')) {
+            if (localStorage.getItem('accessToken') && store.state.user.verifiedAt) {
                 next('/todo')
+            } else if (!localStorage.getItem('accessToken')) {
+                next('/auth/sign-in')
+            } else {
+                next()
             }
-            next()
         }
     }
 ]
