@@ -1,4 +1,5 @@
 import VueCookies from 'vue-cookies'
+import store from '../store'
 
 import AccountComponent from '@/components/Account/AccountComponent.vue'
 import TodoIndex from '@/components/Todo/TodoIndex.vue'
@@ -18,10 +19,13 @@ const routes = [
         path: '/account',
         component: AccountComponent,
         beforeEnter: (to, from, next) => {
-            if (! protect()) {
+            if (!store.state.user.verifiedAt) {
+                next('/verify')
+            } else if (! protect()) {
                 next('/auth/sign-in')
+            } else {
+                next()
             }
-            next()
         }
     },
     // Todo routes
@@ -29,30 +33,39 @@ const routes = [
         path: '/todo',
         component: TodoIndex,
         beforeEnter: (to, from, next) => {
-            if (! protect()) {
+            if (!store.state.user.verifiedAt) {
+                next('/verify')
+            } else if (! protect()) {
                 next('/auth/sign-in')
+            } else {
+                next()
             }
-            next()
         }
     },
     {
         path: '/todo/create',
         component: TodoCreate,
         beforeEnter: (to, from, next) => {
-            if (! protect()) {
+            if (!store.state.user.verifiedAt) {
+                next('/verify')
+            } else if (! protect()) {
                 next('/auth/sign-in')
+            } else {
+                next()
             }
-            next()
         }
     },
     {
         path: '/todo/update/:id',
         component: TodoUpdate,
         beforeEnter: (to, from, next) => {
-            if (! protect()) {
+            if (!store.state.user.verifiedAt) {
+                next('/verify')
+            } else if (! protect()) {
                 next('/auth/sign-in')
+            } else {
+                next()
             }
-            next()
         }
     }
 ]
