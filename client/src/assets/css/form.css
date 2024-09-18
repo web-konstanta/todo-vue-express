@@ -143,3 +143,11 @@
     display: block;
     margin-top: 10px;
 }
+
+.form__server-error {
+    color: #f00f00;
+    font-size: 16px;
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+}

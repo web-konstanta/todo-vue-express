@@ -3,6 +3,7 @@ import '../../assets/css/form.css'
 import { useVuelidate } from '@vuelidate/core'
 import { required, email, minLength } from '@vuelidate/validators'
 import { reactive, computed } from 'vue'
+import authAxios from '../../api/authAxios'
 
 export default {
     setup() {
@@ -36,10 +37,32 @@ export default {
             const data = await response.json()
             window.location.href = data.url
         },
-        signUp() {
+        async signUp() {
             this.v$.$validate()
             if (!this.v$.$error) {
-                alert('sign up')
+                try {
+                    const response = await authAxios.post('/sign-up', {
+                        name: this.state.name,
+                        email: this.state.email,
+                        password: this.state.password
+                    })
+                    
+                    const tokens = response.data
+
+                    if (tokens) {
+                        localStorage.setItem('accessToken', tokens?.accessToken)
+                        this.$router.push('/')
+                    }
+                } catch (e) {
+                    const errorMessage = e.response?.data?.message
+                    if (!document.querySelector('.form__server-error')) {
+                        document.querySelector('.form__or').insertAdjacentHTML('afterend', `
+                            <span class="form__server-error">${errorMessage}</span>
+                        `)
+                    } else {
+                        document.querySelector('.form__server-error').textContent = errorMessage
+                    }
+                }
             }
         }
     }
