@@ -31,18 +31,21 @@ class AuthService {
             }
         })
 
-        await mailService.sendActivationMail(user.email, `${process.env.API_URL}/api/auth/activate/${activationLink}`)
-
-        const payload = new UserDto({
+        const userData = new UserDto({
             id: user.id,
             name: user.name,
-            email: user.email
+            email: user.email,
+            verifiedAt: user.verifiedAt!
         })
 
-        const tokens = tokenService.generateTokens({ ...payload })
-        await tokenService.saveRefreshToken(tokens.refreshToken, user.id)
+        const tokens = tokenService.generateTokens({ ...userData })
 
-        return tokens
+        await Promise.all([
+            mailService.sendActivationMail(user.email, `${process.env.API_URL}/api/auth/activate/${activationLink}`),
+            tokenService.saveRefreshToken(tokens.refreshToken, user.id)
+        ])
+
+        return { user: userData, tokens }
     }
 
     public async signIn(email: string, password: string): Promise<any> {
@@ -66,16 +69,17 @@ class AuthService {
             throw HttpErrorException.badRequest('Password is invalid', 400)
         }
 
-        const payload = new UserDto({
+        const userData = new UserDto({
             id: user.id,
             name: user.name,
-            email: user.email
+            email: user.email,
+            verifiedAt: user.verifiedAt!
         })
 
-        const tokens = tokenService.generateTokens({ ...payload })
+        const tokens = tokenService.generateTokens({ ...userData })
         await tokenService.saveRefreshToken(tokens.refreshToken, user.id)
 
-        return tokens
+        return { user: userData, tokens }
     }
 
     public async signOut(refreshToken: string): Promise<any> {
