@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import authAxios from '@/api/authAxios'
+import appAxios from '@/api/appAxios'
 
 const store = createStore({
     state: {
@@ -22,15 +23,18 @@ const store = createStore({
                     password: payload.password
                 })
 
-                const tokens = response.data
+                const tokens = response.data?.tokens
+                const userData = response.data?.user
 
                 if (tokens) {
                     localStorage.setItem('accessToken', tokens?.accessToken)
+                    localStorage.setItem('isVerified', !!userData?.verifiedAt)
+
                     commit('setAuth', true)
                     commit('setUser', {
-                        name: 'John Doe',
-                        email: 'john@gmail.com',
-                        verifiedAt: new Date()
+                        name: userData?.name,
+                        email: userData?.email,
+                        verifiedAt: userData?.verifiedAt
                     })
                 }
             } catch (e) {
@@ -55,15 +59,18 @@ const store = createStore({
                     password: payload.password
                 })
 
-                const tokens = response.data
+                const tokens = response.data?.tokens
+                const userData = response.data?.user
 
                 if (tokens) {
                     localStorage.setItem('accessToken', tokens?.accessToken)
+                    localStorage.setItem('isVerified', !!userData?.verifiedAt)
+
                     commit('setAuth', true)
                     commit('setUser', {
-                        name: 'John Doe',
-                        email: 'john@gmail.com',
-                        verifiedAt: null
+                        name: userData?.name,
+                        email: userData?.email,
+                        verifiedAt: userData?.verifiedAt
                     })
                 }
             } catch (e) {
@@ -78,6 +85,22 @@ const store = createStore({
                         document.querySelector('.form__server-error').textContent = errorMessage
                     }
                 }
+            }
+        },
+        async userData({ commit }) {
+            try {
+                const response = await appAxios.get('/account/data')
+                const userData = response.data?.data
+
+                localStorage.setItem('isVerified', !!userData?.verifiedAt)
+
+                commit('setUser', {
+                    name: userData?.name,
+                    email: userData?.email,
+                    verifiedAt: userData?.verifiedAt
+                })
+            } catch (e) {
+                console.log(e)
             }
         }
     }

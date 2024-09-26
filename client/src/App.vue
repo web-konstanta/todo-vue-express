@@ -1,7 +1,12 @@
 <script>
 export default {
   name: "App",
-};
+  mounted() {
+    if (localStorage.getItem('accessToken')) {
+      this.$store.dispatch('userData')
+    }
+  }
+}
 </script>
 
 <template>

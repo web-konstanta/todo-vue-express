@@ -43,8 +43,14 @@ const routes = [
         path: '/verify',
         component: VerifyAccount,
         beforeEnter: (to, from, next) => {
+            if (from.fullPath.length === 1) {
+                localStorage.setItem('isVerified', 'true')
+            }
+            
             if (!localStorage.getItem('accessToken')) {
                 next('/auth/sign-in')
+            } else if (localStorage.getItem('isVerified') == 'true') {
+                next('/todo')
             } else {
                 next()
             }

@@ -35,6 +35,9 @@ export default {
         async auth() {
             const response = await fetch('http://localhost:5000/google/request', { method: 'POST' })
             const data = await response.json()
+            if (data) {
+                localStorage.setItem('isVerified', 'true')
+            }
             window.location.href = data.url
         },
         async signIn() {
