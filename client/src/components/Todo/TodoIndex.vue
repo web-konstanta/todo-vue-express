@@ -5,10 +5,6 @@ import HeaderTemplate from '../Templates/HeaderTemplate'
 export default {
     components: { HeaderTemplate },
     mounted() {
-        if (! this.$store.state.user.verifiedAt) {
-            this.$router.push('/verify')
-        }
-
         const cookieToken = this.$cookies.get('accessToken')
 
         if (cookieToken) {
