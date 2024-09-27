@@ -87,6 +87,22 @@ const store = createStore({
                 }
             }
         },
+        async refresh({ commit }) {
+            try {
+                const response = await authAxios.post('/refresh')
+
+                const tokens = response.data?.tokens
+
+                if (tokens) {
+                    localStorage.setItem('accessToken', tokens?.accessToken)
+                }
+
+                commit('setAuth', true)
+                window.location.reload()
+            } catch (e) {
+                console.log(e)
+            }
+        },
         async userData({ commit }) {
             try {
                 const response = await appAxios.get('/account/data')

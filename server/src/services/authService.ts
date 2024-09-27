@@ -120,7 +120,8 @@ class AuthService {
         const userData = tokenService.validateRefreshToken(refreshToken)
 
         if (!userData) {
-            throw HttpErrorException.unauthorized()
+            console.log('Error during fetching user payload')
+            throw HttpErrorException.badRequest('Refresh token expired', 500)
         }
 
         const tokenInstance = await prisma.refreshToken.findFirst({
@@ -130,7 +131,8 @@ class AuthService {
         })
 
         if (!tokenInstance) {
-            throw HttpErrorException.unauthorized()
+            console.log('Error during fetching token instance')
+            throw HttpErrorException.badRequest('Refresh token expired', 500)
         }
 
         const user = await prisma.user.findUnique({
@@ -140,7 +142,8 @@ class AuthService {
         })
 
         if (!user) {
-            throw HttpErrorException.unauthorized()
+            console.log('Error during fetching user data')
+            throw HttpErrorException.badRequest('Refresh token expired', 500)
         }
 
         if (!user.verifiedAt) {
@@ -150,13 +153,14 @@ class AuthService {
         const payload = new UserDto({
             id: user.id,
             name: user.name,
-            email: user.email
+            email: user.email,
+            verifiedAt: user.verifiedAt!
         })
 
         const tokens = tokenService.generateTokens({ ...payload })
         await tokenService.saveRefreshToken(tokens.refreshToken, user.id)
 
-        return tokens
+        return { user: payload, tokens }
     }
 
     public async activate(activationLink: string): Promise<void> {

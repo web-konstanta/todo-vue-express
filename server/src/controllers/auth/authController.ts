@@ -12,13 +12,13 @@ class AuthController {
             }
 
             const data = req.body
-            const tokens = await authService.signUp(data)
+            const userData = await authService.signUp(data)
 
-            res.cookie('refreshToken', tokens.refreshToken, {
+            res.cookie('refreshToken', userData.tokens.refreshToken, {
                 maxAge: 30 * 24 * 60 * 60 * 1000,
                 httpOnly: true
             })
-            return res.json(tokens)
+            return res.json(userData)
         } catch (e) {
             next(e)
         }
@@ -32,13 +32,13 @@ class AuthController {
             }
 
             const data = req.body
-            const tokens = await authService.signIn(data.email, data.password)
+            const userData = await authService.signIn(data.email, data.password)
 
-            res.cookie('refreshToken', tokens.refreshToken, {
+            res.cookie('refreshToken', userData.tokens.refreshToken, {
                 maxAge: 30 * 24 * 60 * 60 * 1000,
                 httpOnly: true
             })
-            return res.json(tokens)
+            return res.json(userData)
         } catch (e) {
             next(e)
         }
@@ -63,13 +63,13 @@ class AuthController {
         try {
             const { refreshToken } = req.cookies
 
-            const tokens = await authService.refresh(refreshToken)
+            const userData = await authService.refresh(refreshToken)
 
-            res.cookie('refreshToken', tokens.refreshToken, {
+            res.cookie('refreshToken', userData.tokens.refreshToken, {
                 maxAge: 30 * 24 * 60 * 60 * 1000,
                 httpOnly: true
             })
-            return res.json(tokens)
+            return res.json(userData)
         } catch (e) {
             next(e)
         }
