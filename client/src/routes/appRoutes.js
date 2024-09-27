@@ -20,6 +20,8 @@ const routes = [
         beforeEnter: (to, from, next) => {
             if (! protect()) {
                 next('/auth/sign-in')
+            } else if (localStorage.getItem('isVerified') == 'false') {
+                next('/verify')
             } else {
                 next()
             }
@@ -32,6 +34,8 @@ const routes = [
         beforeEnter: (to, from, next) => {
             if (! protect()) {
                 next('/auth/sign-in')
+            } else if (localStorage.getItem('isVerified') == 'false') {
+                next('/verify')
             } else {
                 next()
             }
@@ -43,6 +47,8 @@ const routes = [
         beforeEnter: (to, from, next) => {
             if (! protect()) {
                 next('/auth/sign-in')
+            } else if (localStorage.getItem('isVerified') == 'false') {
+                next('/verify')
             } else {
                 next()
             }
@@ -54,6 +60,8 @@ const routes = [
         beforeEnter: (to, from, next) => {
             if (! protect()) {
                 next('/auth/sign-in')
+            } else if (localStorage.getItem('isVerified') == 'false') {
+                next('/verify')
             } else {
                 next()
             }

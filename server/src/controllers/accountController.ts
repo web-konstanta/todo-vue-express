@@ -14,7 +14,8 @@ class AccountController {
                 select: {
                     name: true,
                     email: true,
-                    avatar: true
+                    avatar: true,
+                    verifiedAt: true
                 }
             })
 
