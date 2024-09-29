@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 import authAxios from '@/api/authAxios'
 import appAxios from '@/api/appAxios'
+import router from './routes/router'
 
 const store = createStore({
     state: {
@@ -100,7 +101,10 @@ const store = createStore({
                 commit('setAuth', true)
                 window.location.reload()
             } catch (e) {
-                console.log(e)
+                if (e?.status === 403) {
+                    localStorage.clear()
+                    router.push('/auth/sign-in')
+                }
             }
         },
         async userData({ commit }) {
