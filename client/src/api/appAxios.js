@@ -1,5 +1,6 @@
 import axios from 'axios'
 import store from '@/store'
+import router from '@/routes/router'
 
 const appAxios = axios.create({
     withCredentials: true,
@@ -11,12 +12,14 @@ const appAxios = axios.create({
 
 appAxios.interceptors.response.use(
     (response) => {
-        console.log(response)
         return response
     },
     (error) => {
         if (error?.status === 401) {
             store.dispatch('refresh')
+        } else if (error?.status === 403) {
+            localStorage.clear()
+            router.push('/auth/sign-in')
         }
     }
 )

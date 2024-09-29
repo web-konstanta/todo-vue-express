@@ -88,6 +88,27 @@ const store = createStore({
                 }
             }
         },
+        async signOut({ commit }) {
+            try {
+                const response = await authAxios.post('/sign-out', {}, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                    }
+                })
+
+                console.log(response)
+
+                if (response?.status) {
+                    commit('setAuth', false)
+                    commit('setUser', {})
+
+                    localStorage.clear()
+                    router.push('/auth/sign-in')
+                }
+            } catch (e) {
+                console.log(e)
+            }
+        },
         async refresh({ commit }) {
             try {
                 const response = await authAxios.post('/refresh')
