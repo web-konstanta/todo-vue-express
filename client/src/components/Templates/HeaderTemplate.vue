@@ -6,6 +6,9 @@ export default {
         },
         goToMain() {
             this.$router.push('/')
+        },
+        signOut() {
+            this.$store.dispatch('signOut')
         }
     }
 }
@@ -18,7 +21,7 @@ export default {
                 <img src="../../assets/icons/logo.png" alt="logo" width="40">
             </li>
             <li class="header__menu-options">
-                <button>Sign out</button>
+                <button @click="signOut">Sign out</button>
                 <button @click="goToAccount">
                     <img src="../../assets/icons/no-avatar.png" alt="avatar" width="40">
                 </button>

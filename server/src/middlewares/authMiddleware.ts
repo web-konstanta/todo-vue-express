@@ -5,6 +5,15 @@ import tokenService from '../services/tokenService.js'
 export default (req: Request, res: Response, next: NextFunction) => {
     try {
         let accessToken = req.headers.authorization
+        let { refreshToken } = req.cookies
+
+        if (!refreshToken) {
+            return next(HttpErrorException.badRequest('Refresh token is invalid', 500))
+        }
+
+        if (!tokenService.validateRefreshToken(refreshToken)) {
+            return next(HttpErrorException.badRequest('Refresh token expired', 403))
+        }
 
         if (!accessToken) {
             return next(HttpErrorException.unauthorized())
