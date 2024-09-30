@@ -138,6 +138,7 @@ const store = createStore({
                 commit('setUser', {
                     name: userData?.name,
                     email: userData?.email,
+                    avatar: userData?.avatar,
                     verifiedAt: userData?.verifiedAt
                 })
             } catch (e) {

@@ -1,5 +1,10 @@
 <script>
 export default {
+    computed: {
+        userInfo() {
+            return this.$store.state.user
+        }
+    },
     methods: {
         goToAccount() {
             this.$router.push('/account')
@@ -23,7 +28,11 @@ export default {
             <li class="header__menu-options">
                 <button @click="signOut">Sign out</button>
                 <button @click="goToAccount">
-                    <img src="../../assets/icons/no-avatar.png" alt="avatar" width="40">
+                    <img
+                        class="header__menu-options-avatar"
+                        :src="userInfo.avatar || require('../../assets/icons/no-avatar.png')"
+                        alt="avatar"
+                    >
                 </button>
             </li>
         </ul>
@@ -63,6 +72,12 @@ ul {
     justify-content: space-between;
     min-width: 150px;
     padding: 10px 15px;
+}
+
+.header__menu-options-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
 }
 
 button {
