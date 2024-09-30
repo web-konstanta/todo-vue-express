@@ -40,6 +40,12 @@ input {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+.avatar__image {
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+}
+
 .avatar__input {
     width: 318px;
     padding: 10px 15px;
