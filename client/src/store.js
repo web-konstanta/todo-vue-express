@@ -130,7 +130,11 @@ const store = createStore({
         },
         async userData({ commit }) {
             try {
-                const response = await appAxios.get('/account/data')
+                const response = await appAxios.get('/account/data', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                    }
+                })
                 const userData = response.data?.data
 
                 localStorage.setItem('isVerified', !!userData?.verifiedAt)

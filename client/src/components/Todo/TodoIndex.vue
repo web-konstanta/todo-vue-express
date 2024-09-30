@@ -10,6 +10,7 @@ export default {
         if (cookieToken) {
             localStorage.setItem('accessToken', this.$cookies.get('accessToken'))
             this.$cookies.remove('accessToken')
+            this.$store.dispatch('userData')
         }
     },
     data() {
